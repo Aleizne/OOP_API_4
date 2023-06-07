@@ -33,13 +33,16 @@ class YaUploader:
         }
         params = {"path": file_path, "overwrite": "true"}
         response = requests.get(upload_url, headers=headers, params=params)
+        response.raise_for_status()
         return response.json()
 
-    def upload(self, file_path: str):
+        def upload(self, file_path: str):
         href = self.get_link(file_path=file_path).get("href", "")
-        response = requests.put(href, data=open(file_path, 'rb'))
-        if response.status_code == 201:
-            print("File was succesfully uploaded.\nCheck it in your yaDisk ;)")
+        with open(file_path, 'rb') as f_path:
+            response = requests.put(href, data=f_path)
+            response.raise_for_status()
+            if response.status_code == 201:
+                print("File was succesfully uploaded.\nCheck it in your yaDisk ;)")
 
     # Тут ваша логика(зачеркнуто) магия. Убежден что моя чашка кофе... чая... понимает как это работает лучше меня.
 
@@ -50,7 +53,7 @@ if __name__ == '__main__':
     target_list = ['Hulk', 'Captain America', 'Thanos']
     smartest_one(target_list)
 
-    # Проверяем и выполняем задание №1
+    # Проверяем и выполняем задание №2
     # Получить путь к загружаемому файлу и токен от пользователя
     path_to_file = 'test.txt'
     token = ''
