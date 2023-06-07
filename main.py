@@ -56,7 +56,3 @@ if __name__ == '__main__':
     token = ''
     uploader = YaUploader(token)
     result = uploader.upload(path_to_file)
-
-    if result == 201:
-        print(result)
-        print("Файл загружен успешно!")
